@@ -158,7 +158,7 @@ class UnOrderedList {
    */
   static get pasteConfig() {
     return {
-      tags: ['OL', 'UL', 'LI'],
+      tags: ['UL', 'LI'],
     };
   }
 
