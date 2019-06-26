@@ -96,12 +96,12 @@ class OrderedList {
     // fill with data
     if (this._data.items.length) {
       this._data.items.forEach( item => {
-        this._elements.wrapper.appendChild(this._make('li', this.CSS.item, {
+        this._elements.wrapper.appendChild(this._make('ol', this.CSS.item, {
           innerHTML: item
         }));
       });
     } else {
-      this._elements.wrapper.appendChild(this._make('li', this.CSS.item));
+      this._elements.wrapper.appendChild(this._make('ol', this.CSS.item));
     }
 
     // detect keydown on the last item to escape List
@@ -158,7 +158,7 @@ class OrderedList {
    */
   static get pasteConfig() {
     return {
-      tags: ['OL', 'UL', 'LI'],
+      tags: ['OL'],
     };
   }
 
