@@ -1,5 +1,5 @@
 {
-  "name": "@editorjs/list",
+  "name": "@editorjs/ordered_list",
   "version": "1.3.4",
   "keywords": [
     "codex editor",
@@ -8,9 +8,9 @@
     "editor.js",
     "editorjs"
   ],
-  "description": "List Tool for Editor.js",
+  "description": "Oredered List Tool for Editor.js",
   "license": "MIT",
-  "repository": "https://github.com/editor-js/list",
+  "repository": "https://github.com/AlexNauhtyBoy/orderedList",
   "main": "./dist/bundle.js",
   "scripts": {
     "build": "webpack --mode production",
