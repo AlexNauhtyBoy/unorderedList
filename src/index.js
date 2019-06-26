@@ -12,7 +12,7 @@ require('./index.css').toString();
 /**
  * List Tool for the Editor.js 2.0
  */
-class OrderedList {
+class UnOrderedList {
   /**
    * Allow to use native Enter behaviour
    * @returns {boolean}
@@ -369,4 +369,4 @@ class OrderedList {
   }
 }
 
-module.exports = OrderedList;
+module.exports = UnOrderedList;
