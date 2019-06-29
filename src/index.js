@@ -31,10 +31,11 @@ class UnOrderedList {
    */
   static get toolbox() {
     return {
-      icon: '<svg width="17" height="13" viewBox="0 0 17 13" xmlns="http://www.w3.org/2000/svg"> <path d="M5.625 4.85h9.25a1.125 1.125 0 0 1 0 2.25h-9.25a1.125 1.125 0 0 1 0-2.25zm0-4.85h9.25a1.125 1.125 0 0 1 0 2.25h-9.25a1.125 1.125 0 0 1 0-2.25zm0 9.85h9.25a1.125 1.125 0 0 1 0 2.25h-9.25a1.125 1.125 0 0 1 0-2.25zm-4.5-5a1.125 1.125 0 1 1 0 2.25 1.125 1.125 0 0 1 0-2.25zm0-4.85a1.125 1.125 0 1 1 0 2.25 1.125 1.125 0 0 1 0-2.25zm0 9.85a1.125 1.125 0 1 1 0 2.25 1.125 1.125 0 0 1 0-2.25z"/></svg>',
-      title: 'Unordered List'
+      icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.21802 6.80106C8.21802 7.62948 7.54644 8.30106 6.71802 8.30106C5.88959 8.30106 5.21802 7.62948 5.21802 6.80106C5.21802 5.97263 5.88959 5.30106 6.71802 5.30106C7.54644 5.30106 8.21802 5.97263 8.21802 6.80106ZM19.218 7.30106H10.218V6.30106H19.218V7.30106ZM6.71802 13.3011C7.54644 13.3011 8.21802 12.6295 8.21802 11.8011C8.21802 10.9726 7.54644 10.3011 6.71802 10.3011C5.88959 10.3011 5.21802 10.9726 5.21802 11.8011C5.21802 12.6295 5.88959 13.3011 6.71802 13.3011ZM19.218 12.3011H10.218V11.3011H19.218V12.3011ZM8.21802 16.8011C8.21802 17.6295 7.54644 18.3011 6.71802 18.3011C5.88959 18.3011 5.21802 17.6295 5.21802 16.8011C5.21802 15.9726 5.88959 15.3011 6.71802 15.3011C7.54644 15.3011 8.21802 15.9726 8.21802 16.8011ZM10.218 17.3011H19.218V16.3011H10.218V17.3011Z" fill="#212132"/></svg>',
+      title: 'bullet list'
     };
   }
+
 
   /**
    * Render plugin`s main Element and fill it with saved data
@@ -87,7 +88,7 @@ class UnOrderedList {
    * @public
    */
   render() {
-    const style = tthis.CSS.wrapperUnordered;
+    const style = this._data.style === 'ordered' ? this.CSS.wrapperOrdered : this.CSS.wrapperUnordered;
 
     this._elements.wrapper = this._make('ul', [this.CSS.baseBlock, this.CSS.wrapper, style], {
       contentEditable: true
@@ -101,7 +102,7 @@ class UnOrderedList {
         }));
       });
     } else {
-      this._elements.wrapper.appendChild(this._make('', this.CSS.item));
+      this._elements.wrapper.appendChild(this._make('li', this.CSS.item));
     }
 
     // detect keydown on the last item to escape List
@@ -139,6 +140,40 @@ class UnOrderedList {
         br: true,
       }
     };
+  }
+
+  /**
+   * Settings
+   * @public
+   */
+  renderSettings() {
+    const wrapper = this._make('div', [ this.CSS.settingsWrapper ], {});
+
+    this.settings.forEach( (item) => {
+      const itemEl = this._make('div', this.CSS.settingsButton, {
+        innerHTML: item.icon
+      });
+
+      itemEl.addEventListener('click', () => {
+        this.toggleTune(item.name);
+
+        // clear other buttons
+        const buttons = itemEl.parentNode.querySelectorAll('.' + this.CSS.settingsButton);
+
+        Array.from(buttons).forEach( button => button.classList.remove(this.CSS.settingsButtonActive));
+
+        // mark active
+        itemEl.classList.toggle(this.CSS.settingsButtonActive);
+      });
+
+      if (this._data.style === item.name) {
+        itemEl.classList.add(this.CSS.settingsButtonActive);
+      }
+
+      wrapper.appendChild(itemEl);
+    });
+
+    return wrapper;
   }
 
   /**
@@ -343,13 +378,8 @@ class UnOrderedList {
     const {tagName: tag} = element;
     let type;
 
-    switch(tag) {
-      case 'OL':
-        type = 'ordered';
-        break;
-      case 'UL':
-      case 'LI':
-        type = 'unordered';
+    if (tag == 'UL' || tag == 'LI') {
+      type = 'unordered';
     }
 
     const data = {
@@ -367,6 +397,7 @@ class UnOrderedList {
 
     return data;
   }
+
 }
 
 module.exports = UnOrderedList;
