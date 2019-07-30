@@ -36,7 +36,6 @@ class UnOrderedList {
     };
   }
 
-
   /**
    * Render plugin`s main Element and fill it with saved data
    *
@@ -324,7 +323,7 @@ class UnOrderedList {
     if (currentItem === lastItem && !lastItem.textContent.trim().length) {
       /** Insert New Block and set caret */
       currentItem.parentElement.removeChild(currentItem);
-      this.api.blocks.insertNewBlock();
+      this.api.blocks.insert();
       event.preventDefault();
       event.stopPropagation();
     }
